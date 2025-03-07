@@ -7,9 +7,7 @@ const stripe = require("stripe")(process.env.STRIPE_KEY);
 const app = express();
 
 // Configure CORS for a specific origin (important for production)
-app.use(cors({
-    origin: 'http://localhost:5173' // Replace with your frontend domain
-}));
+app.use(cors({ origin: true}));
 
 app.use(express.json());
 
@@ -33,8 +31,6 @@ app.post("/payment/create", async (req, res) => {
         if (total > maxTotal) {
              return res.status(400).json({ message: "Total exceeds the maximum allowed value." });
         }
-
-
         // Create Payment Intent
         const paymentIntent = await stripe.paymentIntents.create({
             amount: total,
